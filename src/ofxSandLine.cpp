@@ -98,6 +98,19 @@ void ofxSandLine::setPoint(int _index, ofPoint _p){
 }
 
 //------------------------------------------------
+void ofxSandLine::setPoints(ofPoint _p1, ofPoint _p2) {
+	p1 = _p1;
+	p4 = _p2;
+
+	getMidPoints(p1, p4);
+
+	p2 = midPoints[0];
+	p3 = midPoints[1];
+
+	mode = SAND_MODE_LINE;
+}
+
+//------------------------------------------------
 vector<ofPoint> ofxSandLine::getPoints(){
     vector<ofPoint> points;
 
@@ -117,7 +130,7 @@ void ofxSandLine::draw(int _res){
 
     update(_res);
 
-    for(int i = 0; i<grains.size(); i++){
+	for(int i = 0; i<grains.size(); i++){
         ofSetColor(color, ofRandom(maxAlpha));
         ofDrawCircle(grains[i].x, grains[i].y, ofRandom(maxSize));
     }
