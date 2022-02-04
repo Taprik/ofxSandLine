@@ -29,7 +29,7 @@ public:
     vector<ofPoint> getPoints();
 
     void setPoint(int _index, ofPoint _p);
-	void setPoints(ofPoint _p1, ofPoint _p2);
+	void setPoints(glm::vec2 pt1, glm::vec2 pt2);
 
 private:
     int res;

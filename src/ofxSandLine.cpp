@@ -72,6 +72,22 @@ void ofxSandLine::update(int _res){
 
 }
 
+//----------------------------------
+void ofxSandLine::setPoints(glm::vec2 pt1, glm::vec2 pt2) {
+	setPoint(1, pt1);
+	setPoint(4, pt2);
+
+	getMidPoints(pt1, pt2);
+
+	p2 = midPoints[0];
+	p3 = midPoints[1];
+
+	mode = SAND_MODE_SPLINE;
+
+	setDefaults();
+
+}
+
 //------------------------------------------------
 void ofxSandLine::setPoint(int _index, ofPoint _p){
     switch (_index) {
@@ -98,19 +114,6 @@ void ofxSandLine::setPoint(int _index, ofPoint _p){
 }
 
 //------------------------------------------------
-void ofxSandLine::setPoints(ofPoint _p1, ofPoint _p2) {
-	p1 = _p1;
-	p4 = _p2;
-
-	getMidPoints(p1, p4);
-
-	p2 = midPoints[0];
-	p3 = midPoints[1];
-
-	mode = SAND_MODE_LINE;
-}
-
-//------------------------------------------------
 vector<ofPoint> ofxSandLine::getPoints(){
     vector<ofPoint> points;
 
@@ -130,7 +133,7 @@ void ofxSandLine::draw(int _res){
 
     update(_res);
 
-	for(int i = 0; i<grains.size(); i++){
+    for(int i = 0; i<grains.size(); i++){
         ofSetColor(color, ofRandom(maxAlpha));
         ofDrawCircle(grains[i].x, grains[i].y, ofRandom(maxSize));
     }
@@ -183,9 +186,12 @@ void ofxSandLine::setMaxAlpha(int _maxAlpha){
 
 //------------------------------------------------
 vector<ofPoint> ofxSandLine::makeSpline(ofPoint _p1, ofPoint _p2, ofPoint _p3, ofPoint _p4, int _res){
+	
+	res = int(_p1.distance(_p4));
+    
+	vector<ofPoint> points(res + 1);
 
-    vector<ofPoint> points(res + 1);
-
+	
     ofMatrix4x4 controlPoints;
     ofMatrix4x4 splineMatrix;
 
